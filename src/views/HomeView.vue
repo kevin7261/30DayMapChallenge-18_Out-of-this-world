@@ -40,7 +40,7 @@
       // 🚀 初始化應用程式
       onMounted(() => {
         // 直接導航到台灣
-        dataStore.navigateToCountry('Taiwan');
+        dataStore.navigateToTaiwan();
       });
 
       return {
