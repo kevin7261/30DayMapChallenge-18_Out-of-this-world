@@ -118,7 +118,6 @@ body {
   color: var(--my-color-black);
 }
 
-.my-btn-transparent:hover,
 .my-btn-transparent:active {
   color: var(--my-color-black);
   background-color: var(--my-color-white);
@@ -129,7 +128,6 @@ body {
   background-color: var(--my-color-white);
 }
 
-.my-btn-white:hover,
 .my-btn-white:active {
   background-color: var(--my-color-gray-100);
 }
@@ -162,10 +160,7 @@ body {
   background-color: transparent !important;
 }
 
-/* 國家按鈕懸停效果 */
-.my-country-btn:hover {
-  background-color: rgba(255, 255, 255, 0.4) !important;
-}
+/* 國家按鈕懸停效果已移除 */
 
 /* 國家按鈕活躍狀態 */
 .my-country-btn.active {
@@ -195,8 +190,4 @@ body {
   color: var(--my-color-white) !important;
 }
 
-/* 底圖切換按鈕懸停效果 */
-.my-basemap-toggle:hover {
-  background-color: rgba(255, 255, 255, 0.2) !important;
-  color: var(--my-color-white) !important;
-}
+/* 底圖切換按鈕懸停效果已移除 */

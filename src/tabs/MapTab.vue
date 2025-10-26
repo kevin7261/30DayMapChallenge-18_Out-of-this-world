@@ -483,15 +483,11 @@
     transition: fill 0.2s ease;
   }
 
-  :deep(.country:hover) {
-    fill: #c0c0c0;
-  }
+  /* 國家懸停效果已移除 */
 
   :deep(.city-marker) {
     transition: r 0.2s ease;
   }
 
-  :deep(.city-marker:hover) {
-    r: 6;
-  }
+  /* 城市標記懸停效果已移除 */
 </style>
