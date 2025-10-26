@@ -230,7 +230,7 @@
       };
 
       /**
-       * 🎨 繪製世界地圖
+       * 🎨 繪製世界地圖 - 只顯示已造訪的國家
        */
       const drawWorldMap = async () => {
         if (!g || !worldData.value) {
@@ -239,32 +239,47 @@
         }
 
         try {
-          // 直接使用 GeoJSON 數據（無需轉換）
-          const countries = worldData.value;
-          console.log('[MapTab] 開始繪製地圖，國家數量:', countries.features?.length);
+          // 過濾出只包含已造訪國家的數據
+          const visitedCountriesData = {
+            type: 'FeatureCollection',
+            features: worldData.value.features.filter((feature) => {
+              const countryName =
+                feature.properties.name || feature.properties.ADMIN || feature.properties.NAME;
+              // 只保留台灣和已造訪的國家
+              return (
+                dataStore.isHomeCountry(countryName) || dataStore.isCountryVisited(countryName)
+              );
+            }),
+          };
 
-          // 繪製國家邊界
+          console.log(
+            '[MapTab] 開始繪製地圖，已造訪國家數量:',
+            visitedCountriesData.features.length
+          );
+
+          // 繪製已造訪國家的邊界
           g.selectAll('path')
-            .data(countries.features)
+            .data(visitedCountriesData.features)
             .enter()
             .append('path')
             .attr('d', path)
             .attr('fill', (d) => {
-              // 檢查國家顏色：台灣(紅色) > 已造訪(淺藍色) > 其他(淺灰色)
+              // 檢查國家顏色：台灣(紅色) > 已造訪(淺藍色)
               const countryName = d.properties.name || d.properties.ADMIN || d.properties.NAME;
               if (dataStore.isHomeCountry(countryName)) return '#ff9999'; // 台灣：紅色
-              if (dataStore.isCountryVisited(countryName)) return '#cce5ff'; // 已造訪：淺藍色
-              return '#d0d0d0'; // 其他：淺灰色
+              return '#cce5ff'; // 已造訪：淺藍色
             })
             .attr('stroke', '#666666')
             .attr('stroke-width', 0.5)
             .attr('class', 'country');
 
-          // 距離圓圈功能已移除
-
-          console.log('[MapTab] 世界地圖繪製完成，已繪製', countries.features?.length, '個國家');
+          console.log(
+            '[MapTab] 已造訪國家地圖繪製完成，已繪製',
+            visitedCountriesData.features.length,
+            '個國家'
+          );
         } catch (error) {
-          console.error('[MapTab] 世界地圖繪製失敗:', error);
+          console.error('[MapTab] 已造訪國家地圖繪製失敗:', error);
         }
       };
 
