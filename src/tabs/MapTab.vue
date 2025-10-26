@@ -314,7 +314,7 @@
           // 合併其他已造訪國家
           const mergedVisitedCountries = mergeCountries(otherVisitedFeatures);
 
-          // 繪製台灣（紅色）
+          // 繪製台灣（使用 CSS 變數）
           if (taiwanFeatures.length > 0) {
             g.selectAll('path.taiwan')
               .data(taiwanFeatures)
@@ -322,11 +322,11 @@
               .append('path')
               .attr('class', 'taiwan')
               .attr('d', path)
-              .attr('fill', '#ff9999') // 台灣：紅色
+              .style('fill', 'var(--my-color-taiwan)') // 台灣：使用 CSS 變數
               .attr('stroke', 'none'); // 移除台灣邊界線
           }
 
-          // 繪製合併的已造訪國家（深灰色）
+          // 繪製合併的已造訪國家（使用 CSS 變數）
           if (mergedVisitedCountries) {
             g.selectAll('path.visited-countries')
               .data([mergedVisitedCountries])
@@ -334,7 +334,7 @@
               .append('path')
               .attr('class', 'visited-countries')
               .attr('d', path)
-              .attr('fill', '#666666') // 已造訪：深灰色
+              .style('fill', 'var(--my-color-visited-countries)') // 已造訪：使用 CSS 變數
               .attr('stroke', 'none'); // 移除邊界線，讓合併的國家看起來像一個統一的形狀
           }
 

@@ -29,4 +29,8 @@
   --my-color-gray-800: #424242;
   --my-color-gray-900: #212121;
   --my-color-black: #000000;
+
+  /* 地圖國家顏色 */
+  --my-color-taiwan: #ff9999;
+  --my-color-visited-countries: #666666;
 }
