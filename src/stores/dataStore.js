@@ -23,6 +23,7 @@ export const useDataStore = defineStore(
 
     // 已造訪國家列表
     const visitedCountries = ref([
+      'Andorra',
       'Australia',
       'Austria',
       'Belgium',
@@ -36,21 +37,27 @@ export const useDataStore = defineStore(
       'Germany',
       'Greece',
       'Greenland',
+      'Hong Kong',
       'Hungary',
       'Iceland',
       'Italy',
       'Japan',
       'Laos',
+      'Liechtenstein',
       'Luxembourg',
+      'Macao',
       'Malaysia',
+      'Malta',
       'Mexico',
       'Mongolia',
+      'Monaco',
       'Netherlands',
       'North Korea',
       'Norway',
       'Philippines',
       'Poland',
       'Qatar',
+      'San Marino',
       'Singapore',
       'Slovakia',
       'South Korea',
@@ -60,6 +67,7 @@ export const useDataStore = defineStore(
       'Thailand',
       'United Kingdom',
       'United States of America',
+      'Vatican City',
       'Vietnam',
     ]);
 
