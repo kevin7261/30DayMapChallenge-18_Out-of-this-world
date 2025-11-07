@@ -238,6 +238,77 @@
         { name: 'Salalah', label: '索哈拉特', coordinates: [54.0924, 17.0197] },
         { name: 'Sohar', label: '蘇哈爾', coordinates: [56.746, 24.3481] },
         { name: 'Nizwa', label: '尼日瓦', coordinates: [57.5337, 22.9333] },
+        { name: 'Tabriz', label: '大不里士', coordinates: [46.2919, 38.08] },
+        { name: 'Rasht', label: '拉什特', coordinates: [49.6036, 37.2808] },
+        { name: 'Baku', label: '巴庫', coordinates: [49.8671, 40.4093] },
+        { name: 'Sumqayit', label: '蘇姆蓋特', coordinates: [49.6686, 40.5897] },
+        { name: 'Astrakhan', label: '阿斯特拉罕', coordinates: [48.0408, 46.3476] },
+        { name: 'Makhachkala', label: '馬哈奇卡拉', coordinates: [47.5024, 42.9849] },
+        { name: 'Atyrau', label: '阿特勞', coordinates: [51.882, 47.0945] },
+        { name: 'Aktau', label: '阿克套', coordinates: [51.1976, 43.653] },
+        { name: 'Yangon', label: '仰光', coordinates: [96.1951, 16.8661] },
+        { name: 'Mandalay', label: '曼德勒', coordinates: [96.111, 21.9588] },
+        { name: 'Naypyidaw', label: '內比都', coordinates: [96.1297, 19.7633] },
+        { name: 'Taunggyi', label: '東枝', coordinates: [97.0378, 20.7821] },
+        { name: 'Myitkyina', label: '密支那', coordinates: [97.3954, 25.391] },
+        { name: 'Mawlamyine', label: '毛淡棉', coordinates: [97.6303, 16.4905] },
+        { name: 'Kyaukpyu', label: '皎漂', coordinates: [93.538, 19.4333] },
+        { name: 'Sittwe', label: '實兌', coordinates: [92.8984, 20.1462] },
+        { name: 'Pathein', label: '勃生', coordinates: [94.7316, 16.7792] },
+        { name: 'Pyu', label: '卑謬', coordinates: [96.4389, 18.4815] },
+        { name: 'Magway', label: '馬圭', coordinates: [94.9196, 20.1496] },
+        { name: 'Dawei', label: '土瓦', coordinates: [98.1975, 14.0737] },
+        { name: 'Myeik', label: '美克', coordinates: [98.612, 12.4407] },
+        { name: 'Doha', label: '多哈', coordinates: [51.531, 25.2867] },
+        { name: 'Moscow', label: '莫斯科', coordinates: [37.6173, 55.7558] },
+        { name: 'Gold Coast', label: '黃金海岸', coordinates: [153.4, -28.0167] },
+        { name: 'Newcastle AU', label: '紐卡斯爾 (澳洲)', coordinates: [151.7817, -32.9267] },
+        { name: 'Wollongong', label: '伍倫貢', coordinates: [150.893, -34.4251] },
+        { name: 'Sunshine Coast', label: '陽光海岸', coordinates: [153.0667, -26.65] },
+        { name: 'Townsville', label: '湯斯維爾', coordinates: [146.8179, -19.25] },
+        { name: 'Geelong', label: '吉朗', coordinates: [144.3617, -38.148] },
+        { name: 'Karachi', label: '卡拉奇', coordinates: [67.0099, 24.8615] },
+        { name: 'Lahore', label: '拉合爾', coordinates: [74.3587, 31.5204] },
+        { name: 'Islamabad', label: '伊斯蘭堡', coordinates: [73.0479, 33.6844] },
+        { name: 'Peshawar', label: '白沙瓦', coordinates: [71.5249, 34.015] },
+        { name: 'Quetta', label: '奎達', coordinates: [66.9878, 30.1798] },
+        { name: 'Multan', label: '木爾坦', coordinates: [71.5249, 30.1575] },
+        { name: 'Faisalabad', label: '費薩拉巴德', coordinates: [73.0845, 31.4181] },
+        { name: 'Rawalpindi', label: '拉瓦爾品第', coordinates: [73.0551, 33.5984] },
+        { name: 'Kabul', label: '喀布爾', coordinates: [69.2075, 34.5553] },
+        { name: 'Kandahar', label: '坎大哈', coordinates: [65.7101, 31.6289] },
+        { name: 'Herat', label: '赫拉特', coordinates: [62.2014, 34.3419] },
+        { name: 'Mazar-i-Sharif', label: '馬扎里沙里夫', coordinates: [67.7079, 36.709] },
+        { name: 'Jalalabad', label: '賈拉拉巴德', coordinates: [70.4515, 34.4342] },
+        { name: 'Kunduz', label: '昆都士', coordinates: [68.857, 36.728] },
+        { name: 'Ghazni', label: '加茲尼', coordinates: [68.4167, 33.5536] },
+        { name: 'Bamyan', label: '巴米揚', coordinates: [67.8219, 34.8216] },
+        { name: 'Farah', label: '法拉', coordinates: [62.1164, 32.3745] },
+        { name: 'Saint Petersburg', label: '聖彼得堡', coordinates: [30.3351, 59.9343] },
+        { name: 'Novosibirsk', label: '新西伯利亞', coordinates: [82.9346, 55.0084] },
+        { name: 'Yekaterinburg', label: '葉卡捷琳堡', coordinates: [60.6057, 56.8389] },
+        { name: 'Nizhny Novgorod', label: '下諾夫哥羅德', coordinates: [44.0059, 56.2965] },
+        { name: 'Kazan', label: '喀山', coordinates: [49.1221, 55.7879] },
+        { name: 'Chelyabinsk', label: '車里雅賓斯克', coordinates: [61.4026, 55.1644] },
+        { name: 'Samara', label: '薩馬拉', coordinates: [50.1008, 53.1959] },
+        { name: 'Ufa', label: '烏法', coordinates: [56.0097, 54.7388] },
+        { name: 'Volgograd', label: '伏爾加格勒', coordinates: [44.5018, 48.7071] },
+        { name: 'Omsk', label: '鄂木斯克', coordinates: [73.3686, 54.9885] },
+        { name: 'Perm', label: '彼爾姆', coordinates: [56.3269, 58.0105] },
+        { name: 'Rostov-on-Don', label: '頓河畔羅斯托夫', coordinates: [39.7015, 47.2357] },
+        { name: 'Krasnoyarsk', label: '克拉斯諾亞爾斯克', coordinates: [92.8526, 56.0106] },
+        { name: 'Voronezh', label: '沃羅涅日', coordinates: [39.2003, 51.6608] },
+        { name: 'Saratov', label: '薩拉托夫', coordinates: [46.0343, 51.5336] },
+        { name: 'Krasnodar', label: '克拉斯諾達爾', coordinates: [38.9747, 45.0355] },
+        { name: 'Vladivostok', label: '符拉迪沃斯托克', coordinates: [131.8855, 43.1155] },
+        { name: 'Irkutsk', label: '伊爾庫茨克', coordinates: [104.2964, 52.2869] },
+        { name: 'Khabarovsk', label: '哈巴羅夫斯克', coordinates: [135.0719, 48.4808] },
+        { name: 'Tomsk', label: '托木斯克', coordinates: [84.9477, 56.4977] },
+        { name: 'Novokuznetsk', label: '新庫茲涅茨克', coordinates: [87.1099, 53.7571] },
+        { name: 'Barnaul', label: '巴爾瑙爾', coordinates: [83.7769, 53.3481] },
+        { name: 'Kaliningrad', label: '加里寧格勒', coordinates: [20.4522, 54.7104] },
+        { name: 'Murmansk', label: '摩爾曼斯克', coordinates: [33.0863, 68.9707] },
+        { name: 'Jiuquan', label: '酒泉', coordinates: [98.4939, 39.7326] },
         { name: 'Port Moresby', label: '莫爾茲比港', coordinates: [147.18, -9.4438] },
         { name: 'Honiara', label: '荷尼亞拉', coordinates: [159.9492, -9.428] },
         { name: 'Suva', label: '蘇瓦', coordinates: [178.4501, -18.1248] },
@@ -252,7 +323,6 @@
         { name: 'Sydney', label: '雪梨', coordinates: [151.2093, -33.8688] },
         { name: 'Melbourne', label: '墨爾本', coordinates: [144.9631, -37.8136] },
         { name: 'Brisbane', label: '布里斯班', coordinates: [153.0251, -27.4698] },
-        { name: 'Cairns', label: '凱恩斯', coordinates: [145.7703, -16.9186] },
         { name: 'Perth', label: '珀斯', coordinates: [115.8575, -31.9505] },
         { name: 'Adelaide', label: '阿德雷德', coordinates: [138.6007, -34.9285] },
         { name: 'Canberra', label: '坎培拉', coordinates: [149.13, -35.2809] },
@@ -874,7 +944,7 @@
         </div>
 
         <div v-if="ringMode === 'radius'" class="mt-3">
-          <p class="my-font-sm-white mb-2">行星半徑 (公里)</p>
+          <p class="my-font-sm-white mb-2">行星半徑 (10公里)</p>
           <ul class="list-unstyled my-font-sm-white mb-0">
             <li
               v-for="item in planetaryRadiusDisplay"
@@ -882,7 +952,12 @@
               class="d-flex justify-content-between"
             >
               <span>{{ item.name }}</span>
-              <span>{{ item.formatted }} km</span>
+              <span
+                >{{
+                  (Number(item.formatted.replace(/,/g, '')) / 10).toLocaleString('en-US')
+                }}
+                km</span
+              >
             </li>
           </ul>
         </div>
