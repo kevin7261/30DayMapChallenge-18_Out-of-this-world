@@ -16,7 +16,7 @@
    * - Bootstrap 5 樣式
    */
 
-  import { ref, onMounted, onUnmounted } from 'vue';
+  import { ref, onMounted, onUnmounted, watch } from 'vue';
   import * as d3 from 'd3';
 
   export default {
@@ -38,6 +38,60 @@
 
       // 世界地圖數據
       const worldData = ref(null);
+
+      // 圓圈顯示模式
+      const ringMode = ref('distance');
+      const mapScaleFactors = {
+        distance: 1.05,
+        radius: 0.6,
+      };
+      const distanceFormatter = new Intl.NumberFormat('en-US', { maximumFractionDigits: 2 });
+      const radiusFormatter = new Intl.NumberFormat('en-US');
+      const ringConfigurations = {
+        distance: {
+          label: '行星距離',
+          radiiKm: [57.91, 108.2, 149.6, 227.9, 778.3, 1427, 2871, 4504],
+          names: ['水星', '金星', '地球', '火星', '木星', '土星', '天王星', '海王星'],
+          unit: '百萬公里',
+          formatter: distanceFormatter,
+        },
+        radius: {
+          label: '行星半徑',
+          radiiKm: [69911, 58232, 25362, 24622, 6371, 6052, 3389, 2440],
+          names: ['木星', '土星', '天王星', '海王星', '地球', '金星', '火星', '水星'],
+          unit: '公里',
+          formatter: radiusFormatter,
+        },
+      };
+
+      const getScale = (rect) => {
+        const padding = 32;
+        const availableWidth = rect.width - padding * 2;
+        const availableHeight = rect.height - padding * 2;
+        const baseScale = Math.min(availableWidth, availableHeight);
+        const factor = mapScaleFactors[ringMode.value] ?? mapScaleFactors.distance;
+        return baseScale * factor;
+      };
+
+      const planetaryDistanceDisplay = ringConfigurations.distance.radiiKm.map((value, index) => {
+        const labels = ringConfigurations.distance.names;
+        return {
+          id: `planet-distance-${index}`,
+          name: labels[index] || `行星 ${index + 1}`,
+          value,
+          formatted: ringConfigurations.distance.formatter.format(value),
+        };
+      });
+
+      const planetaryRadiusDisplay = ringConfigurations.radius.radiiKm.map((km, index) => {
+        const labels = ringConfigurations.radius.names;
+        return {
+          id: `planet-radius-${index}`,
+          name: labels[index] || `行星 ${index + 1}`,
+          km,
+          formatted: ringConfigurations.radius.formatter.format(km),
+        };
+      });
 
       // 城市座標資料
       const cityLocations = [
@@ -148,6 +202,14 @@
         { name: 'Tarakan', label: '打拉根', coordinates: [117.6333, 3.3] },
         { name: 'Nusantara', label: '努山塔拉', coordinates: [117.236, -0.0206] },
         { name: 'Sapporo', label: '札幌', coordinates: [141.3545, 43.0618] },
+        { name: 'Tokyo', label: '東京', coordinates: [139.6917, 35.6895] },
+        { name: 'Yokohama', label: '橫濱', coordinates: [139.638, 35.4437] },
+        { name: 'Osaka', label: '大阪', coordinates: [135.5022, 34.6937] },
+        { name: 'Nagoya', label: '名古屋', coordinates: [136.9066, 35.1815] },
+        { name: 'Kyoto', label: '京都', coordinates: [135.7681, 35.0116] },
+        { name: 'Kobe', label: '神戶', coordinates: [135.1955, 34.6901] },
+        { name: 'Hiroshima', label: '廣島', coordinates: [132.4553, 34.3853] },
+        { name: 'Sendai', label: '仙台', coordinates: [140.8719, 38.2682] },
         { name: 'Pattaya', label: '巴達雅', coordinates: [100.8825, 12.9236] },
         { name: 'Xiamen', label: '廈門', coordinates: [118.0895, 24.4798] },
         { name: 'Fuzhou', label: '福州', coordinates: [119.2965, 26.0745] },
@@ -157,6 +219,45 @@
         { name: 'Saipan', label: '塞班島', coordinates: [145.753, 15.1778] },
         { name: 'Chichijima', label: '小笠原島', coordinates: [142.1901, 27.0943] },
         { name: 'Minamitorishima', label: '南鳥島', coordinates: [153.9833, 24.2833] },
+        { name: 'Tehran', label: '德黑蘭', coordinates: [51.389, 35.6892] },
+        { name: 'Mashhad', label: '馬什哈德', coordinates: [59.6062, 36.2851] },
+        { name: 'Isfahan', label: '伊斯法罕', coordinates: [51.6776, 32.6546] },
+        { name: 'Shiraz', label: '設拉子', coordinates: [52.54, 29.5918] },
+        { name: 'Ashgabat', label: '阿什哈巴德', coordinates: [58.3833, 37.9601] },
+        { name: 'Turkmenabat', label: '土庫曼納巴德', coordinates: [63.6127, 39.0733] },
+        { name: 'Mary', label: '馬雷', coordinates: [61.8319, 37.6138] },
+        { name: 'Tashkent', label: '塔什干', coordinates: [69.2401, 41.2995] },
+        { name: 'Samarkand', label: '撒馬爾罕', coordinates: [66.9786, 39.627] },
+        { name: 'Bukhara', label: '布哈拉', coordinates: [64.4286, 39.7747] },
+        { name: 'Namangan', label: '納曼干', coordinates: [71.6726, 40.9983] },
+        { name: 'Almaty', label: '阿拉木圖', coordinates: [76.886, 43.2389] },
+        { name: 'Astana', label: '阿斯塔納', coordinates: [71.4704, 51.1605] },
+        { name: 'Shymkent', label: '奇姆肯特', coordinates: [69.5869, 42.3417] },
+        { name: 'Karagandy', label: '卡拉干達', coordinates: [73.1022, 49.8028] },
+        { name: 'Muscat', label: '馬斯喀特', coordinates: [58.4059, 23.588] },
+        { name: 'Salalah', label: '索哈拉特', coordinates: [54.0924, 17.0197] },
+        { name: 'Sohar', label: '蘇哈爾', coordinates: [56.746, 24.3481] },
+        { name: 'Nizwa', label: '尼日瓦', coordinates: [57.5337, 22.9333] },
+        { name: 'Port Moresby', label: '莫爾茲比港', coordinates: [147.18, -9.4438] },
+        { name: 'Honiara', label: '荷尼亞拉', coordinates: [159.9492, -9.428] },
+        { name: 'Suva', label: '蘇瓦', coordinates: [178.4501, -18.1248] },
+        { name: 'Nadi', label: '楠迪', coordinates: [177.4516, -17.8031] },
+        { name: 'Apia', label: '阿皮亞', coordinates: [-171.7514, -13.8333] },
+        { name: 'Palikir', label: '帕利基爾', coordinates: [158.215, 6.9147] },
+        { name: 'Majuro', label: '馬朱羅', coordinates: [171.382, 7.1164] },
+        { name: 'Koror City', label: '科羅爾市', coordinates: [134.473, 7.3398] },
+        { name: 'Saipan Island', label: '塞班島', coordinates: [145.754, 15.177] },
+        { name: 'Pohnpei', label: '波納佩島', coordinates: [158.215, 6.9167] },
+        { name: 'Yap', label: '雅浦島', coordinates: [138.08, 9.5167] },
+        { name: 'Sydney', label: '雪梨', coordinates: [151.2093, -33.8688] },
+        { name: 'Melbourne', label: '墨爾本', coordinates: [144.9631, -37.8136] },
+        { name: 'Brisbane', label: '布里斯班', coordinates: [153.0251, -27.4698] },
+        { name: 'Cairns', label: '凱恩斯', coordinates: [145.7703, -16.9186] },
+        { name: 'Perth', label: '珀斯', coordinates: [115.8575, -31.9505] },
+        { name: 'Adelaide', label: '阿德雷德', coordinates: [138.6007, -34.9285] },
+        { name: 'Canberra', label: '坎培拉', coordinates: [149.13, -35.2809] },
+        { name: 'Hobart', label: '荷巴特', coordinates: [147.3272, -42.8821] },
+        { name: 'Darwin', label: '達爾文', coordinates: [130.8456, -12.4634] },
       ];
 
       /**
@@ -211,13 +312,28 @@
 
           svgElement.value = svg.node();
 
+          d3.select(mapContainer.value).style('position', 'relative');
+
+          if (!ringTooltip) {
+            ringTooltip = d3
+              .select(mapContainer.value)
+              .append('div')
+              .attr('class', 'ring-tooltip')
+              .style('position', 'absolute')
+              .style('pointer-events', 'none')
+              .style('background', 'rgba(15, 23, 42, 0.85)')
+              .style('color', '#f8fafc')
+              .style('padding', '0.35rem 0.55rem')
+              .style('border-radius', '0.5rem')
+              .style('font-size', '0.75rem')
+              .style('line-height', '1.2')
+              .style('white-space', 'nowrap')
+              .style('opacity', 0);
+          }
+
           // 創建投影 - 使用方位等距投影 (Azimuthal Equidistant Projection)
           // 預設以台灣地理中心為投影中心
-          // 添加32px padding，確保地圖不會貼邊
-          const padding = 32;
-          const availableWidth = width - padding * 2;
-          const availableHeight = height - padding * 2;
-          const scale = (Math.min(availableWidth, availableHeight) / 6) * 6;
+          const scale = getScale(rect);
 
           projection = d3
             .geoAzimuthalEquidistant()
@@ -264,6 +380,7 @@
       let ringsGroup = null;
       let cityGroup = null;
       let tooltipGroup = null;
+      let ringTooltip = null;
 
       /**
        * 🔵 繪製以投影中心為圓心的同心距離圓
@@ -273,6 +390,10 @@
       const drawDistanceRings = () => {
         if (!svg || !projection || !mapContainer.value) return;
 
+        if (ringTooltip) {
+          ringTooltip.style('opacity', 0);
+        }
+
         const rect = mapContainer.value.getBoundingClientRect();
         const cx = rect.width / 2;
         const cy = rect.height / 2;
@@ -280,12 +401,25 @@
 
         // 地球半徑（公里）
         const earthRadiusMeters = 6371000;
-        const distanceRadiiKm = [57.91, 108.2, 149.6, 227.9, 778.3, 1427, 2871, 4504];
+        const selectedConfig = ringConfigurations[ringMode.value] || ringConfigurations.distance;
 
-        const rings = distanceRadiiKm.map((distanceKm, idx) => {
-          const distanceMeters = distanceKm * 1000;
+        const rings = selectedConfig.radiiKm.map((distanceKm, idx) => {
+          const adjustedDistanceKm = ringMode.value === 'radius' ? distanceKm / 10 : distanceKm;
+          const distanceMeters = adjustedDistanceKm * 1000;
           const radiusPx = scale * (distanceMeters / earthRadiusMeters);
-          return { index: idx, radiusPx, type: 'distance' };
+          const label = selectedConfig.names?.[idx] || `行星 ${idx + 1}`;
+          const formattedValue = selectedConfig.formatter
+            ? selectedConfig.formatter.format(distanceKm)
+            : `${distanceKm}`;
+          return {
+            index: idx,
+            radiusPx,
+            type: ringMode.value,
+            label,
+            formattedValue,
+            unit: selectedConfig.unit || 'km',
+            originalValue: distanceKm,
+          };
         });
 
         // 加入地球邊界圓（180° = π * R，在方位等距投影中對應到 scale * π）
@@ -296,23 +430,59 @@
           ringsGroup = svg
             .append('g')
             .attr('class', 'distance-rings')
-            .style('pointer-events', 'none');
+            .style('pointer-events', 'auto');
         }
 
         const selection = ringsGroup.selectAll('circle.ring').data(rings, (d) => d.index);
 
-        selection
+        const selectionEnter = selection
           .enter()
           .append('circle')
           .attr('class', 'ring')
-          .attr('fill', 'none')
+          .attr('fill', 'none');
+
+        selectionEnter
           .merge(selection)
           .attr('cx', cx)
           .attr('cy', cy)
           .attr('r', (d) => d.radiusPx)
-          .attr('stroke', (d) => (d.type === 'boundary' ? '#666666' : '#cccccc'))
+          .attr('stroke', (d) => {
+            if (d.type === 'boundary') return '#666666';
+            return ringMode.value === 'radius' ? '#8be9fd' : '#cccccc';
+          })
           .attr('stroke-width', (d) => (d.type === 'boundary' ? 2 : 1))
-          .attr('stroke-dasharray', 'none');
+          .attr('stroke-dasharray', 'none')
+          .attr('pointer-events', (d) => (d.type === 'boundary' ? 'none' : 'visibleStroke'))
+          .on('mouseenter', function (event, d) {
+            if (!ringTooltip || d.type === 'boundary') return;
+
+            const valueText =
+              ringMode.value === 'radius'
+                ? `${d.formattedValue} ${d.unit} (1/10 繪製)`
+                : `${d.formattedValue} ${d.unit}`;
+
+            ringTooltip
+              .style('opacity', 1)
+              .html(`<strong>${d.label}</strong><div>${valueText}</div>`);
+
+            const [x, y] = d3.pointer(event, mapContainer.value);
+            ringTooltip.style('left', `${x + 12}px`).style('top', `${y - 12}px`);
+
+            d3.select(this).attr('stroke-width', d.type === 'boundary' ? 2 : 2);
+          })
+          .on('mousemove', function (event, d) {
+            if (!ringTooltip || d.type === 'boundary') return;
+
+            const [x, y] = d3.pointer(event, mapContainer.value);
+            ringTooltip.style('left', `${x + 12}px`).style('top', `${y - 12}px`);
+          })
+          .on('mouseleave', function (event, d) {
+            if (ringTooltip) {
+              ringTooltip.style('opacity', 0);
+            }
+
+            d3.select(this).attr('stroke-width', d.type === 'boundary' ? 2 : 1);
+          });
 
         selection.exit().remove();
       };
@@ -328,11 +498,18 @@
         }
 
         if (!tooltipGroup) {
-          tooltipGroup = svg.append('g').attr('class', 'city-tooltips').style('pointer-events', 'none');
+          tooltipGroup = svg
+            .append('g')
+            .attr('class', 'city-tooltips')
+            .style('pointer-events', 'none');
         }
 
-        const markers = cityGroup.selectAll('circle.city-marker').data(cityLocations, (d) => d.name);
-        const tooltipLabels = tooltipGroup.selectAll('text.city-tooltip').data(cityLocations, (d) => d.name);
+        const markers = cityGroup
+          .selectAll('circle.city-marker')
+          .data(cityLocations, (d) => d.name);
+        const tooltipLabels = tooltipGroup
+          .selectAll('text.city-tooltip')
+          .data(cityLocations, (d) => d.name);
 
         markers
           .enter()
@@ -413,27 +590,25 @@
 
           console.log('[MapTab] 開始繪製世界地圖，國家數量:', features.length);
 
-          const countrySelection = g
-            .selectAll('path.country')
-            .data(features, (feature) => {
-              return (
-                feature.id ||
-                feature.properties?.iso_a3 ||
-                feature.properties?.ADM0_A3 ||
-                feature.properties?.name ||
-                feature.properties?.NAME
-              );
-            });
+          const countrySelection = g.selectAll('path.country').data(features, (feature) => {
+            return (
+              feature.id ||
+              feature.properties?.iso_a3 ||
+              feature.properties?.ADM0_A3 ||
+              feature.properties?.name ||
+              feature.properties?.NAME
+            );
+          });
 
           countrySelection
-              .enter()
-              .append('path')
+            .enter()
+            .append('path')
             .attr('class', 'country')
             .attr('fill', '#192133')
             .attr('stroke', '#cbd5f5')
             .attr('stroke-width', 0.5)
             .merge(countrySelection)
-              .attr('d', path)
+            .attr('d', path)
             .attr('fill', '#192133')
             .attr('stroke', '#cbd5f5')
             .attr('stroke-width', 0.5)
@@ -466,13 +641,12 @@
         // 方位等距投影：使用 rotate 將選定位置旋轉到中心
         // rotate 接受 [lambda, phi, gamma]，其中 lambda 和 phi 是經緯度的負值
         // 地球大小保持固定，不隨導航改變
-        // 添加32px padding，確保地圖不會貼邊
-        const padding = 32;
-        const availableWidth = width - padding * 2;
-        const availableHeight = height - padding * 2;
-        const scale = (Math.min(availableWidth, availableHeight) / 6) * 6;
+        const scale = getScale(rect);
 
-        projection.rotate([-center[0], -center[1]]).scale(scale);
+        projection
+          .rotate([-center[0], -center[1]])
+          .translate([width / 2, height / 2])
+          .scale(scale);
 
         // 更新所有路徑
         g.selectAll('path.country').attr('d', path);
@@ -484,6 +658,28 @@
         drawCityMarkers();
 
         console.log('[MapTab] 地圖導航完成，中心:', center);
+      };
+
+      const refreshProjection = () => {
+        if (!projection || !g || !mapContainer.value) return;
+
+        const rect = mapContainer.value.getBoundingClientRect();
+        const scale = getScale(rect);
+
+        if (ringTooltip) {
+          ringTooltip.style('opacity', 0);
+        }
+
+        projection.translate([rect.width / 2, rect.height / 2]).scale(scale);
+
+        g.selectAll('path.country').attr('d', path);
+        drawDistanceRings();
+        drawCityMarkers();
+      };
+
+      const changeRingMode = (mode) => {
+        if (!ringConfigurations[mode]) return;
+        ringMode.value = mode;
       };
 
       /**
@@ -499,11 +695,7 @@
 
         svg.attr('width', width).attr('height', height);
 
-        // 添加32px padding，確保地圖不會貼邊
-        const padding = 32;
-        const availableWidth = width - padding * 2;
-        const availableHeight = height - padding * 2;
-        const scale = (Math.min(availableWidth, availableHeight) / 6) * 6;
+        const scale = getScale(rect);
 
         projection.translate([width / 2, height / 2]).scale(scale);
 
@@ -605,7 +797,18 @@
         ringsGroup = null;
         cityGroup = null;
         tooltipGroup = null;
+        if (ringTooltip) {
+          ringTooltip.remove();
+          ringTooltip = null;
+        }
         isMapReady.value = false;
+      });
+
+      watch(ringMode, () => {
+        if (ringTooltip) {
+          ringTooltip.style('opacity', 0);
+        }
+        refreshProjection();
       });
 
       // 監聽器已移除
@@ -615,6 +818,11 @@
         mapContainer,
         mapContainerId,
         navigateToLocation,
+        changeRingMode,
+        ringMode,
+        ringConfigurations,
+        planetaryDistanceDisplay,
+        planetaryRadiusDisplay,
       };
     },
   };
@@ -625,6 +833,61 @@
   <div id="map-container" class="h-100 w-100 position-relative bg-transparent z-0">
     <!-- 🗺️ D3.js 地圖容器 -->
     <div :id="mapContainerId" ref="mapContainer" class="h-100 w-100"></div>
+
+    <!-- 🎛️ 左側控制面板 -->
+    <div
+      class="position-absolute"
+      style="top: 50%; left: 0; transform: translateY(-50%); z-index: 1000; padding: 1rem"
+    >
+      <div class="bg-dark bg-opacity-75 rounded-3 p-3">
+        <div class="d-flex flex-column gap-2">
+          <button
+            type="button"
+            class="btn border-0 my-country-btn my-font-sm-white px-4 py-3 text-start"
+            :class="[ringMode === 'distance' ? 'active' : '']"
+            @click="changeRingMode('distance')"
+          >
+            行星距離
+          </button>
+          <button
+            type="button"
+            class="btn border-0 my-country-btn my-font-sm-white px-4 py-3 text-start"
+            :class="[ringMode === 'radius' ? 'active' : '']"
+            @click="changeRingMode('radius')"
+          >
+            行星半徑
+          </button>
+        </div>
+
+        <div v-if="ringMode === 'distance'" class="mt-3">
+          <p class="my-font-sm-white mb-2">行星與太陽的平均距離 (百萬公里)</p>
+          <ul class="list-unstyled my-font-sm-white mb-0">
+            <li
+              v-for="item in planetaryDistanceDisplay"
+              :key="item.id"
+              class="d-flex justify-content-between"
+            >
+              <span>{{ item.name }}</span>
+              <span>{{ item.formatted }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <div v-if="ringMode === 'radius'" class="mt-3">
+          <p class="my-font-sm-white mb-2">行星半徑 (公里)</p>
+          <ul class="list-unstyled my-font-sm-white mb-0">
+            <li
+              v-for="item in planetaryRadiusDisplay"
+              :key="item.id"
+              class="d-flex justify-content-between"
+            >
+              <span>{{ item.name }}</span>
+              <span>{{ item.formatted }} km</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
