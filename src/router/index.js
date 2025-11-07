@@ -72,7 +72,7 @@ const routes = [
  */
 const router = createRouter({
   // 📍 路由模式配置 (Routing Mode Configuration)
-  history: createWebHistory('/30DayMapChallenge-04_Data-challenge-My-Data/'),
+  history: createWebHistory('/30DayMapChallenge-18_Out-of-this-world/'),
 
   // 📋 路由規則配置 (Routes Configuration)
   routes,

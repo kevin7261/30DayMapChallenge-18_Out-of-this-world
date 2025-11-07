@@ -1,7 +1,7 @@
-# 🌍 30DayMapChallenge-04_Data-challenge-My-Data - 個人旅遊足跡地圖
+# 🌌 30DayMapChallenge-18_Out-of-this-world - 宇宙探索地圖
 
 一個基於 Vue
-3 和 D3.js 的互動式世界地圖應用程式，展示個人旅遊足跡和已造訪國家。使用方位等距投影技術，以台灣為中心點，呈現個人化的世界旅遊經驗。
+3 和 D3.js 的互動式地圖應用程式，探索太空與地球之外的奇幻場景。使用方位等距投影技術，打造沉浸式的「Out of This World」視覺體驗。
 
 ## 📋 目錄
 
@@ -23,21 +23,20 @@
 
 ### 專案背景
 
-本專案是 30DayMapChallenge 的第 4 天挑戰 - "Data challenge: My
-Data"，旨在創建一個展示個人旅遊足跡的互動式地圖。使用現代化的前端技術棧，結合地理資訊系統 (GIS) 概念，呈現個人化的世界旅遊經驗。
+本專案是 30DayMapChallenge 的第 18 天挑戰 - "Out of this world"，旨在打造一個探索地球之外視角的互動式地圖。使用現代化的前端技術棧，結合地理資訊系統 (GIS) 概念，呈現科幻感十足的太空旅程。
 
 ### 設計理念
 
-- **個人化體驗**: 以台灣為中心，展示個人旅遊足跡
-- **視覺化呈現**: 使用不同顏色區分家鄉和已造訪國家
-- **互動式導航**: 支援平滑的地圖導航和視角切換
+- **沉浸式體驗**: 聚焦宇宙視角與天體互動
+- **視覺化呈現**: 使用不同顏色區分地球、月球與深空區域
+- **互動式導航**: 支援平滑的視角切換與行星巡航
 - **響應式設計**: 適配各種設備和螢幕尺寸
 
 ### 核心價值
 
-- 🏠 **家鄉認同**: 突出台灣作為家鄉的特殊地位
-- 🌍 **世界視野**: 展示個人對世界的探索足跡
-- 🎨 **視覺美學**: 簡潔優雅的設計風格
+- 🚀 **星際視角**: 從宇宙視點重新認識地球
+- 🌌 **太空探索**: 展示地球之外的奇幻地景
+- 🎨 **視覺美學**: 簡潔優雅的酷黑色彩搭配
 - 🔧 **技術創新**: 使用現代化的前端技術
 
 ## ✨ 功能特色
@@ -153,7 +152,7 @@ assets/css/
 ## 📁 專案結構
 
 ```
-30DayMapChallenge-04_Data-challenge-My-Data/
+30DayMapChallenge-18_Out-of-this-world/
 ├── 📁 public/                          # 靜態資源目錄
 │   ├── 📄 index.html                   # HTML 入口文件
 │   ├── 📄 404.html                     # 404 錯誤頁面
@@ -241,13 +240,13 @@ assets/css/
 
 ```bash
 # 使用 HTTPS
-git clone https://github.com/kevin7261/30DayMapChallenge-04_Data-challenge-My-Data.git
+git clone https://github.com/kevin7261/30DayMapChallenge-18_Out-of-this-world.git
 
 # 或使用 SSH
-git clone git@github.com:kevin7261/30DayMapChallenge-04_Data-challenge-My-Data.git
+git clone git@github.com:kevin7261/30DayMapChallenge-18_Out-of-this-world.git
 
 # 進入專案目錄
-cd 30DayMapChallenge-04_Data-challenge-My-Data
+cd 30DayMapChallenge-18_Out-of-this-world
 ```
 
 #### 2. 安裝依賴
@@ -294,9 +293,9 @@ pnpm build
 #### 本地訪問
 
 - **本地地址**:
-  `http://localhost:8080/30DayMapChallenge-04_Data-challenge-My-Data/`
+  `http://localhost:8080/30DayMapChallenge-18_Out-of-this-world/`
 - **網路地址**:
-  `http://[your-ip]:8080/30DayMapChallenge-04_Data-challenge-My-Data/`
+  `http://[your-ip]:8080/30DayMapChallenge-18_Out-of-this-world/`
 
 #### 熱重載
 
@@ -615,7 +614,7 @@ npm run deploy
 #### 4. 訪問網站
 
 ```
-https://kevin7261.github.io/30DayMapChallenge-04_Data-challenge-My-Data/
+https://kevin7261.github.io/30DayMapChallenge-18_Out-of-this-world/
 ```
 
 ### 其他部署選項
@@ -625,14 +624,14 @@ https://kevin7261.github.io/30DayMapChallenge-04_Data-challenge-My-Data/
 1. 連接 GitHub 倉庫
 2. 設定構建命令: `npm run build`
 3. 設定發布目錄: `dist`
-4. 設定基礎路徑: `/30DayMapChallenge-04_Data-challenge-My-Data/`
+4. 設定基礎路徑: `/30DayMapChallenge-18_Out-of-this-world/`
 
 #### Vercel 部署
 
 1. 連接 GitHub 倉庫
 2. 設定構建命令: `npm run build`
 3. 設定輸出目錄: `dist`
-4. 設定基礎路徑: `/30DayMapChallenge-04_Data-challenge-My-Data/`
+4. 設定基礎路徑: `/30DayMapChallenge-18_Out-of-this-world/`
 
 ### 環境變數
 
@@ -1043,7 +1042,7 @@ chore: 構建過程或輔助工具的變動
 - **電子郵件**: [your.email@example.com]
 - **GitHub**: [kevin7261](https://github.com/kevin7261)
 - **專案連結**:
-  [30DayMapChallenge-04_Data-challenge-My-Data](https://github.com/kevin7261/30DayMapChallenge-04_Data-challenge-My-Data)
+  [30DayMapChallenge-18_Out-of-this-world](https://github.com/kevin7261/30DayMapChallenge-18_Out-of-this-world)
 
 ## 🙏 致謝
 
@@ -1067,6 +1066,6 @@ chore: 構建過程或輔助工具的變動
 
 ---
 
-**30DayMapChallenge-04_Data-challenge-My-Data** - 探索世界國家的點之美 🌍✨
+**30DayMapChallenge-18_Out-of-this-world** - 展開超越地球的星際之旅 🌌✨
 
 _最後更新: 2024年12月_

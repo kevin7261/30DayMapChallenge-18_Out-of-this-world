@@ -1,7 +1,7 @@
 const { defineConfig } = require('@vue/cli-service');
 
 module.exports = defineConfig({
-  publicPath: '/30DayMapChallenge-04_Data-challenge-My-Data/',
+  publicPath: '/30DayMapChallenge-18_Out-of-this-world/',
   transpileDependencies: true,
   devServer: {
     port: 8080,
