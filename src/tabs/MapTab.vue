@@ -18,14 +18,11 @@
 
   import { ref, onMounted, onUnmounted } from 'vue';
   import * as d3 from 'd3';
-  import { useDataStore } from '@/stores/dataStore.js';
 
   export default {
     name: 'MapTab',
     emits: ['map-ready'],
     setup(props, { emit }) {
-      const dataStore = useDataStore();
-
       // 地圖相關變數
       const mapContainer = ref(null);
       const svgElement = ref(null);
@@ -100,7 +97,7 @@
           const padding = 32;
           const availableWidth = width - padding * 2;
           const availableHeight = height - padding * 2;
-          const scale = Math.min(availableWidth, availableHeight) / 6;
+          const scale = (Math.min(availableWidth, availableHeight) / 6) * 4;
 
           projection = d3
             .geoAzimuthalEquidistant()
@@ -148,9 +145,8 @@
 
       /**
        * 🔵 繪製以投影中心為圓心的同心距離圓
-       * 每 5000 公里一圈，淺灰虛線，永遠位於地圖上層
-       * 最多繪製到 15000 公里（3 圈）
-       * 地球邊界（180°）繪製實線圓圈
+       * 使用指定半徑（公里）繪製虛線圓圈
+       * 地球邊界（180°）仍保留實線圓圈
        */
       const drawDistanceRings = () => {
         if (!svg || !projection || !mapContainer.value) return;
@@ -162,16 +158,13 @@
 
         // 地球半徑（公里）
         const earthRadiusMeters = 6371000;
-        const stepMeters = 5000000; // 5000 公里
-        const maxDistanceMeters = 15000000; // 15000 公里
+        const distanceRadiiKm = [57.91, 108.2, 149.6, 227.9, 778.3, 1427, 2871, 4504];
 
-        const rings = [];
-        for (let i = 1; i <= 10; i++) {
-          const distanceMeters = stepMeters * i;
-          if (distanceMeters > maxDistanceMeters) break;
+        const rings = distanceRadiiKm.map((distanceKm, idx) => {
+          const distanceMeters = distanceKm * 1000;
           const radiusPx = scale * (distanceMeters / earthRadiusMeters);
-          rings.push({ index: i, radiusPx, type: 'distance' });
-        }
+          return { index: idx, radiusPx, type: 'distance' };
+        });
 
         // 加入地球邊界圓（180° = π * R，在方位等距投影中對應到 scale * π）
         const earthBoundaryRadiusPx = scale * Math.PI;
@@ -203,48 +196,8 @@
       };
 
       /**
-       * 🔗 合併多個國家邊界
-       * 創建一個包含所有已造訪國家的單一 FeatureCollection
-       */
-      const mergeCountries = (features) => {
-        if (features.length === 0) return null;
-        if (features.length === 1) return features[0];
-
-        try {
-          // 創建一個合併的 FeatureCollection
-          const mergedFeature = {
-            type: 'Feature',
-            properties: {
-              name: 'Visited Countries',
-              merged: true,
-              count: features.length,
-            },
-            geometry: {
-              type: 'MultiPolygon',
-              coordinates: [],
-            },
-          };
-
-          // 將所有國家的座標合併到 MultiPolygon 中
-          features.forEach((feature) => {
-            if (feature.geometry) {
-              if (feature.geometry.type === 'Polygon') {
-                mergedFeature.geometry.coordinates.push(feature.geometry.coordinates);
-              } else if (feature.geometry.type === 'MultiPolygon') {
-                mergedFeature.geometry.coordinates.push(...feature.geometry.coordinates);
-              }
-            }
-          });
-
-          return mergedFeature;
-        } catch (error) {
-          console.warn('[MapTab] 國家合併失敗，使用原始數據:', error);
-          return features[0]; // 如果合併失敗，返回第一個國家
-        }
-      };
-
-      /**
-       * 🎨 繪製世界地圖 - 合併已造訪的國家
+       * 🎨 繪製世界地圖
+       * 顯示所有國家，並以不同顏色標記家鄉與已造訪國家
        */
       const drawWorldMap = async () => {
         if (!g || !worldData.value) {
@@ -253,74 +206,42 @@
         }
 
         try {
-          // 過濾出只包含已造訪國家的數據
-          const visitedCountriesData = {
-            type: 'FeatureCollection',
-            features: worldData.value.features.filter((feature) => {
-              const countryName =
-                feature.properties.name || feature.properties.ADMIN || feature.properties.NAME;
-              // 只保留台灣和已造訪的國家
+          const features = worldData.value.features || [];
+
+          console.log('[MapTab] 開始繪製世界地圖，國家數量:', features.length);
+
+          const countrySelection = g
+            .selectAll('path.country')
+            .data(features, (feature) => {
               return (
-                dataStore.isHomeCountry(countryName) || dataStore.isCountryVisited(countryName)
+                feature.id ||
+                feature.properties?.iso_a3 ||
+                feature.properties?.ADM0_A3 ||
+                feature.properties?.name ||
+                feature.properties?.NAME
               );
-            }),
-          };
+            });
 
-          console.log(
-            '[MapTab] 開始繪製地圖，已造訪國家數量:',
-            visitedCountriesData.features.length
-          );
+          countrySelection
+            .enter()
+            .append('path')
+            .attr('class', 'country')
+            .attr('fill', '#192133')
+            .attr('stroke', '#0f172a')
+            .attr('stroke-width', 0.5)
+            .merge(countrySelection)
+            .attr('d', path)
+            .attr('fill', '#192133')
+            .attr('stroke', '#0f172a')
+            .attr('stroke-width', 0.5)
+            .attr('opacity', 0.95);
 
-          // 分離台灣和其他已造訪國家
-          const taiwanFeatures = visitedCountriesData.features.filter((feature) => {
-            const countryName =
-              feature.properties.name || feature.properties.ADMIN || feature.properties.NAME;
-            return dataStore.isHomeCountry(countryName);
-          });
-
-          const otherVisitedFeatures = visitedCountriesData.features.filter((feature) => {
-            const countryName =
-              feature.properties.name || feature.properties.ADMIN || feature.properties.NAME;
-            return dataStore.isCountryVisited(countryName) && !dataStore.isHomeCountry(countryName);
-          });
-
-          // 合併其他已造訪國家
-          const mergedVisitedCountries = mergeCountries(otherVisitedFeatures);
-
-          // 繪製台灣（使用 CSS 變數）
-          if (taiwanFeatures.length > 0) {
-            g.selectAll('path.taiwan')
-              .data(taiwanFeatures)
-              .enter()
-              .append('path')
-              .attr('class', 'taiwan')
-              .attr('d', path)
-              .style('fill', 'var(--my-color-taiwan)') // 台灣：使用 CSS 變數
-              .attr('stroke', 'none'); // 移除台灣邊界線
-          }
-
-          // 繪製合併的已造訪國家（使用 CSS 變數）
-          if (mergedVisitedCountries) {
-            g.selectAll('path.visited-countries')
-              .data([mergedVisitedCountries])
-              .enter()
-              .append('path')
-              .attr('class', 'visited-countries')
-              .attr('d', path)
-              .style('fill', 'var(--my-color-visited-countries)') // 已造訪：使用 CSS 變數
-              .attr('stroke', 'none'); // 移除邊界線，讓合併的國家看起來像一個統一的形狀
-          }
-
-          console.log(
-            '[MapTab] 合併國家地圖繪製完成，台灣:',
-            taiwanFeatures.length,
-            '個，已造訪國家: 1個合併形狀'
-          );
+          countrySelection.exit().remove();
 
           // 繪製距離圓圈
           drawDistanceRings();
         } catch (error) {
-          console.error('[MapTab] 合併國家地圖繪製失敗:', error);
+          console.error('[MapTab] 世界地圖繪製失敗:', error);
         }
       };
 
@@ -345,7 +266,7 @@
         const padding = 32;
         const availableWidth = width - padding * 2;
         const availableHeight = height - padding * 2;
-        const scale = Math.min(availableWidth, availableHeight) / 6;
+        const scale = (Math.min(availableWidth, availableHeight) / 6) * 4;
 
         projection.rotate([-center[0], -center[1]]).scale(scale);
 
@@ -375,7 +296,7 @@
         const padding = 32;
         const availableWidth = width - padding * 2;
         const availableHeight = height - padding * 2;
-        const scale = Math.min(availableWidth, availableHeight) / 6;
+        const scale = (Math.min(availableWidth, availableHeight) / 6) * 4;
 
         projection.translate([width / 2, height / 2]).scale(scale);
 
@@ -502,7 +423,7 @@
     overflow: hidden;
   }
 
-  /* 距離圓圈使用 D3.js 繪製，包含 5000km 虛線圓圈和地球邊界實線圓圈 */
+  /* 距離圓圈使用 D3.js 繪製，包含指定半徑虛線圓圈和地球邊界實線圓圈 */
 
   :deep(.country) {
     transition: fill 0.2s ease;

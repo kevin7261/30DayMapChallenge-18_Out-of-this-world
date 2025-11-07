@@ -1,7 +1,7 @@
 /**
  * 📦 數據存儲模組 (Data Store Module)
  *
- * 管理已造訪國家數據和地圖導航功能
+ * 管理 D3 地圖實例與導航功能
  * 使用 Pinia 狀態管理系統和 Vue 3 Composition API
  */
 
@@ -17,78 +17,6 @@ export const useDataStore = defineStore(
   () => {
     // 台灣中心座標（用於地圖投影和導航）
     const taiwanCenter = [120.982025, 23.973875];
-
-    // 台灣國家名稱
-    const homeCountry = ref('Taiwan');
-
-    // 已造訪國家列表
-    const visitedCountries = ref([
-      'Andorra',
-      'Australia',
-      'Austria',
-      'Belgium',
-      'Brunei',
-      'China',
-      'Czechia',
-      'Denmark',
-      'Estonia',
-      'Finland',
-      'France',
-      'Germany',
-      'Greece',
-      'Greenland',
-      'Hong Kong',
-      'Hungary',
-      'Iceland',
-      'Italy',
-      'Japan',
-      'Laos',
-      'Liechtenstein',
-      'Luxembourg',
-      'Macao',
-      'Malaysia',
-      'Malta',
-      'Mexico',
-      'Mongolia',
-      'Monaco',
-      'Netherlands',
-      'North Korea',
-      'Norway',
-      'Philippines',
-      'Poland',
-      'Qatar',
-      'San Marino',
-      'Singapore',
-      'Slovakia',
-      'South Korea',
-      'Spain',
-      'Sweden',
-      'Switzerland',
-      'Thailand',
-      'United Kingdom',
-      'United States of America',
-      'Vatican City',
-      'Vietnam',
-    ]);
-
-    // 檢查國家是否為台灣
-    const isHomeCountry = (countryName) => {
-      if (!countryName) return false;
-      return countryName.trim() === homeCountry.value;
-    };
-
-    // 檢查國家是否已造訪
-    const isCountryVisited = (countryName) => {
-      if (!countryName) return false;
-      const normalizedName = countryName.trim();
-      return visitedCountries.value.some((visitedCountry) => {
-        if (normalizedName === visitedCountry) return true;
-        if (normalizedName.includes(visitedCountry) || visitedCountry.includes(normalizedName)) {
-          return true;
-        }
-        return false;
-      });
-    };
 
     // 地圖實例
     const mapInstance = ref(null);
@@ -123,10 +51,6 @@ export const useDataStore = defineStore(
       mapInstance,
       setMapInstance,
       navigateToTaiwan,
-      homeCountry,
-      isHomeCountry,
-      visitedCountries,
-      isCountryVisited,
     };
   },
   {
