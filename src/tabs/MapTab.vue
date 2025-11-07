@@ -39,6 +39,126 @@
       // 世界地圖數據
       const worldData = ref(null);
 
+      // 城市座標資料
+      const cityLocations = [
+        { name: 'Taipei', label: '台北', coordinates: [121.5654, 25.033] },
+        { name: 'Taichung', label: '台中', coordinates: [120.6736, 24.1477] },
+        { name: 'Chiayi', label: '嘉義', coordinates: [120.445, 23.4819] },
+        { name: 'Tainan', label: '台南', coordinates: [120.1667, 23.15] },
+        { name: 'Kaohsiung', label: '高雄', coordinates: [120.3014, 22.6273] },
+        { name: 'Hualien', label: '花蓮', coordinates: [121.602, 23.9739] },
+        { name: 'Taitung', label: '台東', coordinates: [121.1139, 22.7611] },
+        { name: 'Lanyu', label: '蘭嶼', coordinates: [121.5509, 22.0446] },
+        { name: 'Taoyuan', label: '桃園', coordinates: [121.2168, 24.993] },
+        { name: 'Shanghai', label: '上海', coordinates: [121.4737, 31.2304] },
+        { name: 'Beijing', label: '北京', coordinates: [116.4074, 39.9042] },
+        { name: 'Tianjin', label: '天津', coordinates: [117.3616, 39.3434] },
+        { name: 'Chongqing', label: '重慶', coordinates: [106.5516, 29.563] },
+        { name: 'Chengdu', label: '成都', coordinates: [104.0665, 30.5723] },
+        { name: 'Urumqi', label: '烏魯木齊', coordinates: [87.6168, 43.8256] },
+        { name: 'Lhasa', label: '拉薩', coordinates: [91.1175, 29.6473] },
+        { name: 'Xining', label: '西寧', coordinates: [101.7789, 36.6232] },
+        { name: 'Yinchuan', label: '銀川', coordinates: [106.2309, 38.4872] },
+        { name: 'Hohhot', label: '呼和浩特', coordinates: [111.751, 40.8415] },
+        { name: 'Lanzhou', label: '蘭州', coordinates: [103.8343, 36.0611] },
+        { name: 'Guiyang', label: '貴陽', coordinates: [106.6302, 26.647] },
+        { name: 'Nanning', label: '南寧', coordinates: [108.3661, 22.8172] },
+        { name: 'Kunming', label: '昆明', coordinates: [102.8329, 24.8801] },
+        { name: 'Xiangyang', label: '襄陽', coordinates: [112.144, 32.0424] },
+        { name: 'Yibin', label: '宜賓', coordinates: [104.6308, 28.7602] },
+        { name: 'Hangzhou', label: '杭州', coordinates: [120.1551, 30.2741] },
+        { name: 'Nanjing', label: '南京', coordinates: [118.7965, 32.0603] },
+        { name: 'Suzhou', label: '蘇州', coordinates: [120.5853, 31.2989] },
+        { name: 'Guangzhou', label: '廣州', coordinates: [113.2644, 23.1291] },
+        { name: 'Shenzhen', label: '深圳', coordinates: [114.0579, 22.5431] },
+        { name: 'Fukuoka', label: '福岡', coordinates: [130.4017, 33.5902] },
+        { name: "Xi'an", label: '西安', coordinates: [108.9398, 34.3416] },
+        { name: 'Luoyang', label: '洛陽', coordinates: [112.454, 34.6197] },
+        { name: 'Zhengzhou', label: '鄭州', coordinates: [113.6254, 34.7466] },
+        { name: 'Dunhuang', label: '敦煌', coordinates: [94.661, 40.1421] },
+        { name: 'Wuhan', label: '武漢', coordinates: [114.3055, 30.5928] },
+        { name: 'Qingdao', label: '青島', coordinates: [120.3826, 36.0671] },
+        { name: 'Dalian', label: '大連', coordinates: [121.6147, 38.914] },
+        { name: 'Shenyang', label: '瀋陽', coordinates: [123.4315, 41.8057] },
+        { name: 'Changsha', label: '長沙', coordinates: [112.9388, 28.2282] },
+        { name: 'Ningbo', label: '寧波', coordinates: [121.5503, 29.8739] },
+        { name: 'Harbin', label: '哈爾濱', coordinates: [126.6424, 45.756] },
+        { name: 'New Delhi', label: '新德里', coordinates: [77.209, 28.6139] },
+        { name: 'Mumbai', label: '孟買', coordinates: [72.8777, 19.076] },
+        { name: 'Bengaluru', label: '班加羅爾', coordinates: [77.5946, 12.9716] },
+        { name: 'Hyderabad', label: '海得拉巴', coordinates: [78.4867, 17.385] },
+        { name: 'Chennai', label: '欽奈', coordinates: [80.2707, 13.0827] },
+        { name: 'Kolkata', label: '加爾各答', coordinates: [88.3639, 22.5726] },
+        { name: 'Pune', label: '浦那', coordinates: [73.8567, 18.5204] },
+        { name: 'Ahmedabad', label: '艾哈邁達巴德', coordinates: [72.5714, 23.0225] },
+        { name: 'Surat', label: '蘇拉特', coordinates: [72.8311, 21.1702] },
+        { name: 'Jaipur', label: '齋浦爾', coordinates: [75.7873, 26.9124] },
+        { name: 'Lucknow', label: '勒克瑙', coordinates: [80.9462, 26.8467] },
+        { name: 'Kochi', label: '科欽', coordinates: [76.2673, 9.9312] },
+        { name: 'Varanasi', label: '瓦拉納西', coordinates: [82.9739, 25.3176] },
+        { name: 'Manila', label: '馬尼拉', coordinates: [120.9842, 14.5995] },
+        { name: 'Quezon City', label: '奎松', coordinates: [121.0437, 14.676] },
+        { name: 'Davao', label: '達沃', coordinates: [125.6131, 7.1907] },
+        { name: 'Cebu', label: '宿霧', coordinates: [123.8854, 10.3157] },
+        { name: 'Zamboanga', label: '三寶顏', coordinates: [122.079, 6.9214] },
+        { name: 'Iloilo', label: '伊洛伊洛', coordinates: [122.545, 10.7202] },
+        { name: 'Bacolod', label: '巴科洛德', coordinates: [122.9673, 10.6769] },
+        { name: 'Cagayan de Oro', label: '卡加延德奧羅', coordinates: [124.6411, 8.4542] },
+        { name: 'General Santos', label: '將軍市', coordinates: [125.1717, 6.1164] },
+        { name: 'Taguig', label: '塔吉格', coordinates: [121.086, 14.52] },
+        { name: 'Pasig', label: '巴西', coordinates: [121.0614, 14.5869] },
+        { name: 'Angeles', label: '安赫萊斯', coordinates: [120.587, 15.1591] },
+        { name: 'Olongapo', label: '奧隆阿波', coordinates: [120.2863, 14.8389] },
+        { name: 'San Fernando', label: '聖費爾南多', coordinates: [120.6676, 15.0327] },
+        { name: 'Dagupan', label: '達古潘', coordinates: [120.3333, 16.0449] },
+        { name: 'Baguio', label: '碧瑤', coordinates: [120.6003, 16.4023] },
+        { name: 'Laoag', label: '佬沃', coordinates: [120.5887, 18.1989] },
+        { name: 'Tuguegarao', label: '土格加勞', coordinates: [121.7269, 17.6131] },
+        { name: 'Vigan', label: '維甘', coordinates: [120.3869, 17.5747] },
+        { name: 'Jakarta', label: '雅加達', coordinates: [106.8451, -6.2088] },
+        { name: 'Surabaya', label: '泗水', coordinates: [112.7508, -7.2575] },
+        { name: 'Bandung', label: '萬隆', coordinates: [107.6191, -6.9175] },
+        { name: 'Medan', label: '棉蘭', coordinates: [98.6765, 3.5952] },
+        { name: 'Semarang', label: '三寶壟', coordinates: [110.4203, -6.9667] },
+        { name: 'Makassar', label: '望加錫', coordinates: [119.4179, -5.1477] },
+        { name: 'Palembang', label: '巨港', coordinates: [104.7754, -2.9761] },
+        { name: 'Batam', label: '巴淡', coordinates: [104.0305, 1.0823] },
+        { name: 'Denpasar', label: '登巴薩', coordinates: [115.2126, -8.6705] },
+        { name: 'Yogyakarta', label: '日惹', coordinates: [110.3695, -7.7956] },
+        { name: 'Manado', label: '萬鳴', coordinates: [124.8456, 1.4748] },
+        { name: 'Balikpapan', label: '巴厘巴板', coordinates: [116.8466, -1.2379] },
+        { name: 'Bangkok', label: '曼谷', coordinates: [100.5018, 13.7563] },
+        { name: 'Chiang Mai', label: '清邁', coordinates: [98.962, 18.7883] },
+        { name: 'Phuket', label: '普吉', coordinates: [98.3923, 7.8804] },
+        { name: 'Hat Yai', label: '合艾', coordinates: [100.4747, 6.996] },
+        { name: 'Udon Thani', label: '烏隆他尼', coordinates: [102.8014, 17.4139] },
+        { name: 'Pattaya City', label: '芭堤雅市', coordinates: [100.8692, 12.9236] },
+        { name: 'Khon Kaen', label: '孔敬', coordinates: [102.8333, 16.4419] },
+        { name: 'Nakhon Ratchasima', label: '呵叻', coordinates: [102.101, 14.9799] },
+        { name: 'Kuala Lumpur', label: '吉隆坡', coordinates: [101.6869, 3.139] },
+        { name: 'George Town', label: '檳城', coordinates: [100.3354, 5.4141] },
+        { name: 'Johor Bahru', label: '新山', coordinates: [103.7618, 1.4927] },
+        { name: 'Kuching', label: '古晉', coordinates: [110.3608, 1.5535] },
+        { name: 'Kota Kinabalu', label: '亞庇', coordinates: [116.0735, 5.9804] },
+        { name: 'Miri', label: '美里', coordinates: [113.9933, 4.3999] },
+        { name: 'Bintulu', label: '民都魯', coordinates: [113.0332, 3.1706] },
+        { name: 'Samarinda', label: '三馬林達', coordinates: [117.1488, -0.5021] },
+        { name: 'Pontianak', label: '坤甸', coordinates: [109.3448, -0.0263] },
+        { name: 'Banjarmasin', label: '班加馬辛', coordinates: [114.5926, -3.3194] },
+        { name: 'Tarakan', label: '打拉根', coordinates: [117.6333, 3.3] },
+        { name: 'Nusantara', label: '努山塔拉', coordinates: [117.236, -0.0206] },
+        { name: 'Sapporo', label: '札幌', coordinates: [141.3545, 43.0618] },
+        { name: 'Pattaya', label: '巴達雅', coordinates: [100.8825, 12.9236] },
+        { name: 'Xiamen', label: '廈門', coordinates: [118.0895, 24.4798] },
+        { name: 'Fuzhou', label: '福州', coordinates: [119.2965, 26.0745] },
+        { name: 'Ulaanbaatar', label: '烏蘭巴托', coordinates: [106.9057, 47.8864] },
+        { name: 'Koror', label: '帛琉', coordinates: [134.4799, 7.3426] },
+        { name: 'Hagatna', label: '關島', coordinates: [144.7332, 13.4757] },
+        { name: 'Saipan', label: '塞班島', coordinates: [145.753, 15.1778] },
+        { name: 'Chichijima', label: '小笠原島', coordinates: [142.1901, 27.0943] },
+        { name: 'Minamitorishima', label: '南鳥島', coordinates: [153.9833, 24.2833] },
+      ];
+
       /**
        * 📥 載入世界地圖數據
        */
@@ -97,7 +217,7 @@
           const padding = 32;
           const availableWidth = width - padding * 2;
           const availableHeight = height - padding * 2;
-          const scale = (Math.min(availableWidth, availableHeight) / 6) * 4;
+          const scale = (Math.min(availableWidth, availableHeight) / 6) * 6;
 
           projection = d3
             .geoAzimuthalEquidistant()
@@ -140,8 +260,10 @@
         }
       };
 
-      // 距離圓圈相關變數
+      // 距離圓圈與城市標記
       let ringsGroup = null;
+      let cityGroup = null;
+      let tooltipGroup = null;
 
       /**
        * 🔵 繪製以投影中心為圓心的同心距離圓
@@ -190,9 +312,90 @@
           .attr('r', (d) => d.radiusPx)
           .attr('stroke', (d) => (d.type === 'boundary' ? '#666666' : '#cccccc'))
           .attr('stroke-width', (d) => (d.type === 'boundary' ? 2 : 1))
-          .attr('stroke-dasharray', (d) => (d.type === 'boundary' ? 'none' : '6,6'));
+          .attr('stroke-dasharray', 'none');
 
         selection.exit().remove();
+      };
+
+      /**
+       * 📍 繪製城市標記
+       */
+      const drawCityMarkers = () => {
+        if (!svg || !projection) return;
+
+        if (!cityGroup) {
+          cityGroup = svg.append('g').attr('class', 'city-markers');
+        }
+
+        if (!tooltipGroup) {
+          tooltipGroup = svg.append('g').attr('class', 'city-tooltips').style('pointer-events', 'none');
+        }
+
+        const markers = cityGroup.selectAll('circle.city-marker').data(cityLocations, (d) => d.name);
+        const tooltipLabels = tooltipGroup.selectAll('text.city-tooltip').data(cityLocations, (d) => d.name);
+
+        markers
+          .enter()
+          .append('circle')
+          .attr('class', 'city-marker')
+          .attr('r', 3.5)
+          .attr('fill', '#ffde59')
+          .attr('stroke', '#0f172a')
+          .attr('stroke-width', 1)
+          .style('cursor', 'pointer')
+          .on('mouseenter', function (event, d) {
+            tooltipGroup
+              .selectAll('text.city-tooltip')
+              .filter((t) => t.name === d.name)
+              .attr('visibility', 'visible');
+
+            d3.select(this).attr('r', 5);
+          })
+          .on('mouseleave', function (event, d) {
+            tooltipGroup
+              .selectAll('text.city-tooltip')
+              .filter((t) => t.name === d.name)
+              .attr('visibility', 'hidden');
+
+            d3.select(this).attr('r', 3.5);
+          })
+          .merge(markers)
+          .attr('cx', (d) => {
+            const projected = projection(d.coordinates);
+            return projected ? projected[0] : 0;
+          })
+          .attr('cy', (d) => {
+            const projected = projection(d.coordinates);
+            return projected ? projected[1] : 0;
+          });
+
+        markers.exit().remove();
+
+        tooltipLabels
+          .enter()
+          .append('text')
+          .attr('class', 'city-tooltip')
+          .attr('visibility', 'hidden')
+          .attr('text-anchor', 'middle')
+          .attr('dy', -8)
+          .attr('fill', '#ffffff')
+          .attr('font-size', 12)
+          .attr('font-weight', '600')
+          .attr('stroke', '#0f172a')
+          .attr('stroke-width', 0.5)
+          .attr('paint-order', 'stroke')
+          .text((d) => d.label)
+          .merge(tooltipLabels)
+          .attr('x', (d) => {
+            const projected = projection(d.coordinates);
+            return projected ? projected[0] : 0;
+          })
+          .attr('y', (d) => {
+            const projected = projection(d.coordinates);
+            return projected ? projected[1] : 0;
+          });
+
+        tooltipLabels.exit().remove();
       };
 
       /**
@@ -223,16 +426,16 @@
             });
 
           countrySelection
-            .enter()
-            .append('path')
+              .enter()
+              .append('path')
             .attr('class', 'country')
             .attr('fill', '#192133')
-            .attr('stroke', '#0f172a')
+            .attr('stroke', '#cbd5f5')
             .attr('stroke-width', 0.5)
             .merge(countrySelection)
-            .attr('d', path)
+              .attr('d', path)
             .attr('fill', '#192133')
-            .attr('stroke', '#0f172a')
+            .attr('stroke', '#cbd5f5')
             .attr('stroke-width', 0.5)
             .attr('opacity', 0.95);
 
@@ -240,12 +443,13 @@
 
           // 繪製距離圓圈
           drawDistanceRings();
+
+          // 繪製城市標記
+          drawCityMarkers();
         } catch (error) {
           console.error('[MapTab] 世界地圖繪製失敗:', error);
         }
       };
-
-      // addCityMarkers 函數已移除 - 不再需要城市標記
 
       /**
        * 🌍 導航到指定位置
@@ -266,7 +470,7 @@
         const padding = 32;
         const availableWidth = width - padding * 2;
         const availableHeight = height - padding * 2;
-        const scale = (Math.min(availableWidth, availableHeight) / 6) * 4;
+        const scale = (Math.min(availableWidth, availableHeight) / 6) * 6;
 
         projection.rotate([-center[0], -center[1]]).scale(scale);
 
@@ -275,6 +479,9 @@
 
         // 更新距離圓圈
         drawDistanceRings();
+
+        // 更新城市標記
+        drawCityMarkers();
 
         console.log('[MapTab] 地圖導航完成，中心:', center);
       };
@@ -296,7 +503,7 @@
         const padding = 32;
         const availableWidth = width - padding * 2;
         const availableHeight = height - padding * 2;
-        const scale = (Math.min(availableWidth, availableHeight) / 6) * 4;
+        const scale = (Math.min(availableWidth, availableHeight) / 6) * 6;
 
         projection.translate([width / 2, height / 2]).scale(scale);
 
@@ -305,6 +512,9 @@
 
         // 更新距離圓圈
         drawDistanceRings();
+
+        // 更新城市標記
+        drawCityMarkers();
 
         console.log('[MapTab] 地圖尺寸更新完成');
       };
@@ -393,6 +603,8 @@
         zoom = null;
         g = null;
         ringsGroup = null;
+        cityGroup = null;
+        tooltipGroup = null;
         isMapReady.value = false;
       });
 
@@ -423,7 +635,7 @@
     overflow: hidden;
   }
 
-  /* 距離圓圈使用 D3.js 繪製，包含指定半徑虛線圓圈和地球邊界實線圓圈 */
+  /* 距離圓圈使用 D3.js 繪製，包含指定半徑實線圓圈與地球邊界實線圓圈 */
 
   :deep(.country) {
     transition: fill 0.2s ease;
@@ -435,5 +647,7 @@
     transition: r 0.2s ease;
   }
 
-  /* 城市標記懸停效果已移除 */
+  :deep(.city-tooltip) {
+    transition: opacity 0.2s ease;
+  }
 </style>
